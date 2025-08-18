@@ -42,10 +42,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/FutureAgiApi.credentials.js"
+      "dist/credentials/FutureAgiApi.credentials.ts"
     ],
     "nodes": [
-      "dist/nodes/FutureAgi/FutureAgi.node.js"
+      "dist/nodes/FutureAgi/FutureAgi.node.ts"
     ]
   },
   "devDependencies": {
