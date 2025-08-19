@@ -178,17 +178,7 @@ export class FutureAgiApi implements ICredentialType {
 			baseURL: '={{$credentials.baseUrl}}',
 			url: '/health',
 			method: 'GET',
-		},
-		rules: [
-			{
-				type: 'responseSuccessBody',
-				properties: {
-					key: 'status',
-					message: 'API is healthy',
-					value: true,
-				},
-			},
-		],
+		}
 	};
 }
 
