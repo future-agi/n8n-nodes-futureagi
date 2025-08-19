@@ -1,6 +1,6 @@
 {
   "name": "@future-agi/n8n-nodes-futureagi",
-  "version": "0.6.5",
+  "version": "0.6.6",
   "description": "n8n community node for Future AGI prompt management with async logging, evaluation, and content protection capabilities",
   "keywords": [
     "n8n-community-node-package",
