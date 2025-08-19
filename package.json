@@ -1,19 +1,28 @@
 {
-  "name": "n8n-nodes-<...>",
-  "version": "0.1.0",
-  "description": "",
+  "name": "@future-agi/n8n-nodes-futureagi",
+  "version": "0.6.6",
+  "description": "n8n community node for Future AGI prompt management with async logging, evaluation, and content protection capabilities",
   "keywords": [
-    "n8n-community-node-package"
+    "n8n-community-node-package",
+    "future-agi",
+    "prompt-management",
+    "llm",
+    "ai",
+    "evaluation",
+    "logging",
+    "content-protection",
+    "safety",
+    "security"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://futureagi.com",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Future Agi",
+    "email": "support@futureagi.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/future-agi/n8n-nodes-futureagi.git"
   },
   "engines": {
     "node": ">=20.15"
@@ -33,12 +42,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/FutureAgiApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+      "dist/nodes/FutureAgi/FutureAgi.node.js"
     ]
   },
   "devDependencies": {
