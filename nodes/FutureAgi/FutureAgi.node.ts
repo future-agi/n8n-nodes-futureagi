@@ -137,6 +137,7 @@ export class FutureAgi implements INodeType {
 				displayName: 'Use Default Version',
 				name: 'useDefaultVersion',
 				type: 'boolean',
+				required: true,
 				displayOptions: {
 					show: {
 						operation: ['getPrompt'],
@@ -144,6 +145,37 @@ export class FutureAgi implements INodeType {
 				},
 				default: true,
 				description: 'Whether to use the default version configured for this prompt in Future AGI',
+			},
+			{
+				displayName: 'Use Compiled Prompt',
+				name: 'useCompiledPrompt',
+				type: 'boolean',
+				required: true,
+				displayOptions: {
+					show: {
+						operation: ['getPrompt'],
+					},
+				},
+				default: false,
+				description: 'Whether to use the compiled prompt',
+			},
+			{
+				displayName: 'Variable Object Map',
+				name: 'variableObjectMap',
+				type: 'json',
+				required: true,
+				typeOptions: {
+					multipleValues: false, // prevents array/object arrays
+				},
+				displayOptions: {
+					show: {
+						operation: ['getPrompt'],
+						useCompiledPrompt: [true],
+					},
+				},
+				default: '{}',
+				description: 'Map variable names to their values as an object',
+				placeholder: '{\'name\': \'John Doe\', \'age\': 30}',
 			},
 			{
 				displayName: 'Prompt Version',
@@ -156,6 +188,7 @@ export class FutureAgi implements INodeType {
 					},
 				},
 				default: '',
+				required: true,
 				placeholder: 'e.g. v3',
 				description: 'Version/label of the prompt to retrieve when not using default version',
 			},
@@ -639,6 +672,28 @@ async function getPrompt(this: IExecuteFunctions, baseUrl: string, headers: any,
     const promptName = this.getNodeParameter('promptName', itemIndex) as string;
     const useDefaultVersion = this.getNodeParameter('useDefaultVersion', itemIndex) as boolean;
     const promptVersion = this.getNodeParameter('promptVersion', itemIndex, '') as string;
+    const useCompiledPrompt = this.getNodeParameter('useCompiledPrompt', itemIndex, false) as boolean;
+    const variableObjectMapParam = this.getNodeParameter('variableObjectMap', itemIndex, '{}') as any;
+	if (promptVersion === '' && !useDefaultVersion) {
+		throw new NodeOperationError(this.getNode(), 'Prompt Version is required', {
+			itemIndex,
+		});
+	}
+    let variableObjectMap: Record<string, any> = {};
+    if (useCompiledPrompt) {
+        try {
+            variableObjectMap = typeof variableObjectMapParam === 'string' ? JSON.parse(variableObjectMapParam) : (variableObjectMapParam || {});
+            if (variableObjectMap === null || Array.isArray(variableObjectMap) || typeof variableObjectMap !== 'object') {
+                throw new NodeOperationError(this.getNode(), 'Variable Object Map must be valid JSON', {
+                    itemIndex,
+                });
+            }
+        } catch (error) {
+            throw new NodeOperationError(this.getNode(), 'Variable Object Map must be valid JSON', {
+                itemIndex,
+            });
+        }
+    }
 
     const isVersionTag = /^v\d+$/i.test(promptVersion);
     let response: any;
@@ -669,12 +724,23 @@ async function getPrompt(this: IExecuteFunctions, baseUrl: string, headers: any,
     const promptConfig = Array.isArray(response.promptConfig)
         ? response.promptConfig[0]
         : response.promptConfig;
+
+	const replaceVariablesDeep = (obj: any, vars: Record<string, any>): any => {
+		const jsonString = JSON.stringify(obj);
+		let result = jsonString;
+		for (const [key, value] of Object.entries(vars)) {
+			const re = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
+			result = result.replace(re, String(value));
+		}
+		return JSON.parse(result);
+	};
+    const compiledPromptConfig = useCompiledPrompt ? replaceVariablesDeep(promptConfig, variableObjectMap) : promptConfig;
 	const variables = Object.keys(response.variable_names);
 
     return {
         "Name": response.name,
         "Version": response.version,
-        "Prompt config": promptConfig,
+        "Prompt config": compiledPromptConfig,
         "Variables": variables,
     };
 }
