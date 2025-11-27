@@ -215,7 +215,7 @@ Scan and protect content using Future AGI's advanced protection capabilities to 
 
 To use this node, you need to authenticate with Future AGI. You'll need:
 
-1. A Future AGI account ([Sign up here](https://futureagi.com/signup))
+1. A Future AGI account ([Sign up here](https://app.futureagi.com))
 2. API credentials from your Future AGI project settings
 
 ### Required Credentials
