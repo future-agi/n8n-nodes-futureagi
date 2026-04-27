@@ -1,13 +1,31 @@
+<div align="center">
+
+<a href="https://futureagi.com">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="Logo.png">
+    <img alt="Future AGI" src="Logo.png" width="100%">
+  </picture>
+</a>
+
 # n8n-nodes-futureagi
 
 [![npm version](https://badge.fury.io/js/%40future-agi%2Fn8n-nodes-futureagi.svg)](https://badge.fury.io/js/%40future-agi%2Fn8n-nodes-futureagi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+</div>
 
 This is an n8n community node that enables seamless integration with Future AGI's prompt management, execution logging, and evaluation capabilities. It provides advanced features for managing AI workflows with comprehensive observability and quality assurance.
 
 [Future AGI](https://futureagi.com) is a next-generation AI platform that provides prompt management, execution tracking, and automated evaluation capabilities for AI applications.
 
 [n8n](https://n8n.io) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
+
+
+<a href="https://youtu.be/i35AZmXrprQ">
+  <img alt="Watch the n8n-nodes-futureagi demo on YouTube" src="https://img.youtube.com/vi/i35AZmXrprQ/maxresdefault.jpg" width="100%">
+</a>
+
+<sub>▶ <a href="https://youtu.be/i35AZmXrprQ">Watch on YouTube</a></sub>
 
 ## Features
 
